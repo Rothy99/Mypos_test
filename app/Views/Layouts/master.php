@@ -29,6 +29,7 @@
    <link rel="stylesheet" href="<?php echo base_url()?>/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="<?php echo base_url()?>/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
   <link rel="stylesheet" href="<?php echo base_url()?>/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+  <link rel="stylesheet" href="<?php echo base_url()?>/plugins/build/css/alertify.min.css">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed text-sm">
 <div class="wrapper">
@@ -89,6 +90,7 @@
 <!-- AdminLTE for demo purposes -->
 <script src="<?php echo base_url()?>/plugins/jquery-validation/jquery.validate.min.js"></script>
 <script src="<?php echo base_url()?>/plugins/jquery-validation/additional-methods.min.js"></script>
+<script src="<?php echo base_url()?>/plugins/build/alertify.min.js"></script>
 <!-- DataTables  & Plugins -->
 <script src="<?php echo base_url()?>/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="<?php echo base_url()?>/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>

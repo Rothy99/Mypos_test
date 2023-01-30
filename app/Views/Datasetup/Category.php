@@ -28,7 +28,8 @@
               <h3 class="card-title">Category of product list</h3>
 
               <div >
-              <button  class="btn btn-primary float-right ml-2" onclick="add_book()"><i class="fas fa-plus-circle"></i>&nbsp;&nbsp;Add New</button>
+             
+              <button  class="btn btn-primary float-right ml-2" data-toggle="modal" data-target="#cateogryModel"><i class="fas fa-plus-circle"></i>&nbsp;&nbsp;Add New</button>
 
               </div>
             </div>
@@ -88,39 +89,39 @@
       </div>
       <!-- /.container-fluid -->
     </section>
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-
-<div class="modal-dialog modal-lg ">
+    <div class="modal fade" id="cateogryModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
 <div class="modal-content">
 
-            <div class="modal-header bg-info">
+            <div class="modal-header bg-secondary">
               <h4 class="modal-title" id="exampleModalScrollableTitle">Add New Category</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="card-body ">
-               <form  action="#" id="form"  class="form-horizontal">
+               <!-- <form  action="#" id="form"  class="form-horizontal"> -->
                   <div class="row">
                   <div class="col-md-12 col-sm-6 col-xs-6">
                    <div class="form-group">
-                     <label for="">Category Name:</label>
+                     <label for="">Category Name:</label><span id="error_catename" class="text-danger ms-3"></span>
                      <input type="hidden" class="form-control" id="txtid" name="txtid" placeholder="Enter Category Code" require >
-                     <input type="text" class="form-control" id="cate_name" name="cate_name" placeholder="Enter Category Name" >
+                     <input type="text" class="form-control catename"  placeholder="Enter Category Name" >
                   </div>
                   </div>
                  
                     <div class="col-md-12 col-sm-6 col-xs-6">
                    <div class="form-group">
                      <label for="">Category Description:</label>
-                     <input type="text" class="form-control" id="des" name="des" placeholder="Enter Category Description" >
+                     <input type="text" class="form-control des" placeholder="Enter Category Description" >
                   </div>
                   </div>
                   
                  </div>
-                 <div class="modal-footer">
-            <button type="submit" class="btn btn-success" onclick="save()" id="btnSaveIt">Save</button>
-            <button type="button"  class="btn btn-default" id="btnCloseIt" data-dismiss="modal">Close</button>
+                 <div class="modal-footer justify-content-between">
+           
+            <button type="button"  class="btn btn-default"  data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-success category-save"  >Save</button>
           </div>
               </form>
                
@@ -129,145 +130,44 @@
 </div>
 </div>
 </div>
+<script src="<?php echo base_url()?>/plugins/build/alertify.min.js"></script>
+<link rel="stylesheet" href="<?php echo base_url()?>/plugins/build/css/alertify.min.css">
 
-<script src="<?php echo base_url()?>/plugins/jquery/jquery.min.js"></script>
-            <script>
-              var save_method; //for save method string
-    
-              function add_book()
-              {
-              save_method = 'add';
-              $('#form')[0].reset(); // reset form on modals
-              $('#exampleModal').modal('show'); // show bootstrap modal
-              //$('.modal-title').text('Add Person'); // Set Title to Bootstrap modal title
-               }
-               function edit_category(id)
-               {
-               save_method = 'update';
-             $('#form')[0].reset(); // reset form on modals
-            <?php header('Content-type: application/json'); ?>
-      //Ajax Load data from ajax
-             $.ajax({
-             url : "<?php echo site_url('edit-category')?>/" + id,
-             type: "GET",
-             dataType: "JSON",
-             success: function(data)
-            {
-            console.log(data);
-            $('[name="txtid"]').val(data.id);
-            $('[name="cate_name"]').val(data.cate_name);
-            $('[name="des"]').val(data.des);
-           
-            $('#exampleModal').modal('show'); // show bootstrap modal when complete loaded
-            $('.modal-title').text('Edit Category'); // Set title to Bootstrap modal title
+<script src="<?php echo base_url()?>/plugins/jquery/jquery.min.js"></script>          
+<script>
+  $(document).ready(function () {
+    $(document).on('click','.category-save', function () {
 
-            },
-             error: function (jqXHR, textStatus, errorThrown)
-            {
-            console.log(jqXHR);
-            alert('Error get data from ajax');
-           }
-           });
-           }
-   function save()
-    {
-    	var url;
-      if(save_method == 'add')
-      {
-          url = "<?php echo site_url('Save-category')?>";
-      }
-      else
-      {
-        url = "<?php echo site_url('update-category')?>";
-      }
-       // ajax adding data to database
-          $.ajax({
-            url : url,
-            type: "POST",
-            data: $('#form').serialize(),
-            dataType: "JSON",        
-            success: function(data){
-               //if success close modal and reload ajax table
-               $('#exampleModal').modal('hide');
-              location.reload();// for reload a page
-            },
-            error: function (jqXHR, textStatus, errorThrown)
-            {
-                alert('Error Adding | update data');
-           }
-        });
-    }
-     function delete_category(id)
-    {
-      if(confirm('Are you sure delete this data?'))
-      {
-        
-        // ajax delete data from database
-          $.ajax({
-            url : "<?php echo site_url('Ddelete-category')?>/"+id,
-            type: "POST",
-            dataType: "JSON",
-            success: function(data)
-            {
-            window.location.reload();
-            },
-            error: function (jqXHR, textStatus, errorThrown)
-            {
-            alert('Error deleting data');
-            }
+     if($.trim($('.catename').val()).length ==0){
+        error_catename = 'Please Enter Category Name';
+        $('#error_catename').text(error_catename);
+     }else{
+      error_catename = '';
+        $('#error_catename').text(error_catename);
+     }
+      if(error_catename !=''){
+        return false;
+      }else{
+        var data = {
+            'catename':$('.catename').val(),
+            'des':$('.des').val(),
+        };
+        $.ajax({
+          method: "POST",
+          url: "/Save-category",
+          data: data,
+         
+          success: function (response) {
+            // $('#cateogryModel').modal('hide');
+            $('#cateogryModel').modal('hide');
+            // $('#cateogryModel').find('input').val('');
+            alertify.set('notifier','position','top-right');
+            alertify.success(response.status);
+            
+          }
         });
       }
-    }
-    
-   
-            </script>
-            <script>
-                $(function () {
-  $.validator.setDefaults({
-    submitHandler: function () {
-      alert( "Form successful submitted!" );
-    }
+    });
   });
-  $('#form').validate({
-    rules: {
-      cate_name: {
-        required: true,
-        cate_name: true,
-      },
-    //   password: {
-    //     required: true,
-    //     minlength: 5
-    //   },
-    //   terms: {
-    //     required: true
-    //   },
-    // },
-    },
-    messages: {
-      cate_name: {
-        required: "Please enter a email address",
-        cate_name: "Please enter a valid email address"
-      },
-    //   password: {
-    //     required: "Please provide a password",
-    //     minlength: "Your password must be at least 5 characters long"
-    //   },
-    //   terms: "Please accept our terms"
-    },
-    errorElement: 'span',
-    errorPlacement: function (error, element) {
-      error.addClass('invalid-feedback');
-      element.closest('.form-group').append(error);
-    },
-    highlight: function (element, errorClass, validClass) {
-      $(element).addClass('is-invalid');
-    },
-    unhighlight: function (element, errorClass, validClass) {
-      $(element).removeClass('is-invalid');
-    }
-    
-  });
-});
-
             </script>
 <?= $this->endSection() ?>
