@@ -12,12 +12,7 @@ class DatasetupController extends BaseController
     {
         $Cate_model=new CategoryModel();
         $data['category']=$Cate_model->FindAll();
-        return view('Datasetup/Category');
-    }
-    public function get_category(){
-        $Cate_model=new CategoryModel();
-        $data['category']=$Cate_model->FindAll();
-        return $this->response->setJSON($data);
+        return view('Datasetup/Category',$data);
     }
     public function save_category(){
         $category=new CategoryModel();
