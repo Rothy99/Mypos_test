@@ -31,6 +31,8 @@ $routes->set404Override();
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
 $routes->get('product-category', 'DatasetupController::index');
+$routes->get('get-category', 'DatasetupController::get_category');
+
 $routes->post('Save-category', 'DatasetupController::save_category');
 $routes->get('edit-category/(:num)', 'DatasetupController::edit_category/$1');
 $routes->post('update-category', 'DatasetupController::update_category');

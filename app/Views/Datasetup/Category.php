@@ -44,33 +44,10 @@
                     <th>Category Name</th>
                     <th>Category Description</th>
                     <th>Action</th>
-
                   </tr>
                   </thead>
-                  <tbody>
-                  <?php
-
-                if($category)
-                {
-                    foreach($category as $row)
-                    {
-                        echo '
-                        <tr>
-                            <td>'.$row["id"].'</td>
-                            <td>'.$row["cate_name"].'</td>
-                            <td>'.$row["des"].'</td>
-                           
-                            <td>
-                            <button type="button" class="btn btn-info badge badge-info"  onclick="edit_category('.$row['id'].')" >Edit</button>
-                             <button type="button" class="btn btn-danger badge badge-danger"  onclick="delete_category('.$row['id'].')" >Delete</button>
-                        </td>
-                           
-                          
-                        </tr>';
-                    }
-                }
-
-                ?>
+                  <tbody class="cetegorydata">
+                 
                 
                   </tbody>
                  
@@ -130,12 +107,12 @@
 </div>
 </div>
 </div>
-<script src="<?php echo base_url()?>/plugins/build/alertify.min.js"></script>
-<link rel="stylesheet" href="<?php echo base_url()?>/plugins/build/css/alertify.min.css">
-
-<script src="<?php echo base_url()?>/plugins/jquery/jquery.min.js"></script>          
+<?= $this->section('script') ?>
+<script src="<?php echo base_url()?>/plugins/jquery/jquery.min.js"></script>
+     
 <script>
   $(document).ready(function () {
+    loadcategory();
     $(document).on('click','.category-save', function () {
 
      if($.trim($('.catename').val()).length ==0){
@@ -168,6 +145,35 @@
         });
       }
     });
+    
   });
+  function loadcategory()
+  {
+    $.ajax({
+      method: "GET",
+      url: "/get-category",
+      // data: "data",
+      // dataType: "dataType",
+      success: function (response) {
+        $.each(response.category, function(key, value) {
+          $('.cetegorydata').append('<tr>\
+          <td>'+value['id']+'</td>\
+          <td>'+value['cate_name']+'</td>\
+          <td>'+value['des']+'</td>\
+          <td>\
+          <button type="button" class="btn btn-info badge badge-info" >Edit</button>\
+          <button type="button" class="btn btn-danger badge badge-danger">Delete</button>\
+          </td>\
+          </tr>');
+      });
+        
+      }
+    });
+  }
+
             </script>
+            
+              
+           
+            <?= $this->endSection() ?>
 <?= $this->endSection() ?>
